@@ -1,4 +1,4 @@
-package security;
+package com.grupo6.barbearia_api.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,22 @@ public class SecurityExceptionHandler {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.FORBIDDEN.value());
-        body.put("error", "Proibido");
+        body.put("error", "Forbidden");
         body.put("message", "Você não tem permissão para acessar este recurso.");
 
         return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleGeneralException(Exception ex) {
+        if (ex.getMessage() != null && (ex.getMessage().contains("Unauthorized") || ex.getMessage().contains("Full authentication is required"))) {
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("timestamp", LocalDateTime.now());
+            body.put("status", HttpStatus.UNAUTHORIZED.value());
+            body.put("error", "Unauthorized");
+            body.put("message", "Token ausente, expirado ou inválido.");
+            return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+        }
+        throw new RuntimeException(ex);
     }
 }
