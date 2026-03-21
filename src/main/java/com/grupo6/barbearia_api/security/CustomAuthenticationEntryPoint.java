@@ -1,6 +1,7 @@
 package com.grupo6.barbearia_api.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -14,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
-public class CustomAuthenticationEntryPoint {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper;
 
@@ -27,7 +28,7 @@ public class CustomAuthenticationEntryPoint {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException
-    ) throws IOException {
+    ) throws IOException, ServletException {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());

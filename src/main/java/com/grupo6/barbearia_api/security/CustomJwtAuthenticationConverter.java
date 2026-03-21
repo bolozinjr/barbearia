@@ -2,7 +2,7 @@ package com.grupo6.barbearia_api.security;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAutority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -32,11 +32,11 @@ public class CustomJwtAuthenticationConverter implements  Converter<Jwt, Abstrac
         List<String> permissions = jwt.getClaimAsStringList("permissions");
 
         if (permissions == null || permissions.isEmpty()) {
-            return Colletions.emptyList();
+            return Collections.emptyList();
         }
 
         return permissions.stream()
-                .map(permission -> "PERM_" + permission.toUpperCase().replace(":", "_"))
+                .map(permission -> "ROLE_" + permission.toUpperCase().replace(":", "_"))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
