@@ -1,4 +1,4 @@
-package com.grupo6.barbearia_api.service;
+package com.grupo6.barbearia_api.service.scheduler;
 
 import com.grupo6.barbearia_api.model.Produto;
 import com.grupo6.barbearia_api.view.ProdutoView;
